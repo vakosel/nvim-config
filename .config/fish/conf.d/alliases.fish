@@ -13,7 +13,7 @@ alias qq='deactivate'
 alias pti='ptipython'
 alias rofi='rofi -show drun'
 alias orphans='sudo pacman -Rns $(pacman -Qdtq)'
-alias vera='veracrypt --mount /dev/sda1  ~/Downloads/veracrypt1 --filesystem=ntfs --protect-hidden=no  --pim=0 --keyfiles='
+alias vera='veracrypt --mount /dev/sdb1  ~/Downloads/veracrypt1 --filesystem=ntfs --protect-hidden=no  --pim=0 --keyfiles='
 alias verad='veracrypt -d'
 
 # -----------------------------------------------------

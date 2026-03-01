@@ -16,6 +16,14 @@ myBrowser = "brave"  # My browser of choice
 logout = "/home/vakosel/.config/rofi/powermenu/powermenu.sh"
 fileBrowser = "/usr/bin/thunar"
 
+@hook.subscribe.client_new
+def force_tile_mpv(window):
+    wm_class = window.get_vm_class()
+    if wm_class and ("mpv" in wm_class):
+        window.floating = False
+ 
+
+
 
 # Allows you to input a name when adding treetab section.
 @lazy.layout.function
