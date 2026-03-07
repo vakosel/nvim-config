@@ -2,7 +2,7 @@ return {
   "nvim-treesitter/nvim-treesitter",
   version = false, -- last release is way too old and doesn't work on Windows
   build = ":TSUpdate",
-  event = { "BufReadPost", "BufNewFile" },
+  lazy = false, -- load immediately
   dependencies = {
     {
       "nvim-treesitter/nvim-treesitter-textobjects",
@@ -31,7 +31,10 @@ return {
   },
   ---@type TSConfig
   opts = {
-    highlight = { enable = true },
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = false,
+    },
     indent = { enable = true },
     context_commentstring = { enable = true, enable_autocmd = false },
     ensure_installed = {
@@ -63,6 +66,7 @@ return {
         node_decremental = "<bs>",
       },
     },
+    auto_install = true,
   },
   ---@param opts TSConfig
   config = function(_, opts)
@@ -80,20 +84,25 @@ return {
     local ok, ts = pcall(require, "nvim-treesitter.configs")
     if ok then
       ts.setup(opts)
+
+      -- Attach highlight to all currently open buffers
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+        if ft ~= "" then
+          pcall(require("nvim-treesitter.highlighter").attach, buf, ft)
+        end
+      end
+
+      -- Auto-attach highlight to any future buffer
+      vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+        callback = function()
+          local buf = vim.api.nvim_get_current_buf()
+          local ft = vim.api.nvim_buf_get_option(buf, "filetype")
+          if ft ~= "" then
+            pcall(require("nvim-treesitter.highlighter").attach, buf, ft)
+          end
+        end,
+      })
     end
   end,
-  --   config = function(_, opts)
-  --     if type(opts.ensure_installed) == "table" then
-  --       ---@type table<string, boolean>
-  --       local added = {}
-  --       opts.ensure_installed = vim.tbl_filter(function(lang)
-  --         if added[lang] then
-  --           return false
-  --         end
-  --         added[lang] = true
-  --         return true
-  --       end, opts.ensure_installed)
-  --     end
-  --     require("nvim-treesitter.configs").setup(opts)
-  --   end,
 }
