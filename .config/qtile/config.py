@@ -1,14 +1,11 @@
 import os
 import subprocess
-import sys
-
-from libqtile import bar, extension, hook, layout, qtile 
-from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
-from libqtile.lazy import lazy
-from libqtile.log_utils import ColorFormatter
-from qtile_extras import widget
 
 import colors
+from libqtile import bar, hook, layout, qtile
+from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
+from libqtile.lazy import lazy
+from qtile_extras import widget
 
 mod = "mod4"  # Sets mod key to SUPER/WINDOWS
 myTerm = "wezterm"  # My terminal of choice
@@ -16,13 +13,12 @@ myBrowser = "brave"  # My browser of choice
 logout = "/home/vakosel/.config/rofi/powermenu/powermenu.sh"
 fileBrowser = "/usr/bin/thunar"
 
+
 @hook.subscribe.client_new
 def force_tile_mpv(window):
     wm_class = window.get_vm_class()
     if wm_class and ("mpv" in wm_class):
         window.floating = False
- 
-
 
 
 # Allows you to input a name when adding treetab section.
@@ -54,6 +50,12 @@ alt = "mod1"
 keys = [
     # The essentials
     Key([mod], "Return", lazy.spawn(myTerm), desc="Terminal"),
+    Key(
+        [mod, "control"],
+        "Return",
+        lazy.spawn("wezterm start --class nvimterm"),
+        desc="Floating Neovim terminal",
+    ),
     Key([mod, "shift"], "Return", lazy.spawn("rofi -show drun"), desc="Run Launcher"),
     Key([mod], "w", lazy.spawn(myBrowser), desc="Web browser"),
     Key([mod], "e", lazy.spawn(fileBrowser), desc="Thunar"),
@@ -429,7 +431,7 @@ def init_widgets_list():
             fmt="🖥  Mem: {} used",
         ),
         widget.Volume(
-            backend="pipewire", 
+            backend="pipewire",
             foreground=colors[7],
             padding=6,
             fmt="🕫  Vol: {}",
@@ -560,6 +562,7 @@ floating_layout = layout.Floating(
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
+        Match(wm_class="nvimterm"),  # nvim
         Match(wm_class="confirmreset"),  # gitk
         Match(wm_class="dialog"),  # dialog boxes
         Match(wm_class="download"),  # downloads
@@ -582,6 +585,7 @@ floating_layout = layout.Floating(
         Match(title="tastytrade - Portfolio Report"),  # tastytrade pop-out allocation
         Match(wm_class="tasty.javafx.launcher.LauncherFxApp"),  # tastytrade settings
     ],
+    auto_flat=True,
 )
 auto_fullscreen = True
 focus_on_window_activation = "smart"

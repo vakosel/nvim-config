@@ -2,6 +2,8 @@
 local colors = require('colors.custom')
 
 return {
+   initial_cols = 160,
+   initial_rows = 40,
    max_fps = 120,
    front_end = 'WebGpu',
    webgpu_power_preference = 'HighPerformance',
