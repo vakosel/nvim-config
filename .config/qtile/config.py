@@ -1,11 +1,12 @@
 import os
 import subprocess
 
-import colors
 from libqtile import bar, hook, layout, qtile
 from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from qtile_extras import widget
+
+from colors import Wal_Colors as colors
 
 mod = "mod4"  # Sets mod key to SUPER/WINDOWS
 myTerm = "wezterm"  # My terminal of choice
@@ -257,7 +258,6 @@ for i in groups:
         ]
     )
 
-colors = colors.Wal_Colors
 layout_theme = {
     "border_width": 2,
     "margin": 12,
