@@ -50,8 +50,6 @@ run nm-applet # NetworkManager icon
 
 # Some process you may want to start with Qtile
 
-# run urxvtd -q -o					# URxvt daemon
-# run cbatticon						# Battery icon and command
 # run xfce4-power-manager 			# Power management
 # run light-locker					# Screen locker
 # run xfce4-clipman					# Clipboard management

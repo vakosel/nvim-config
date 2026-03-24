@@ -17,7 +17,7 @@ fileBrowser = "/usr/bin/thunar"
 
 @hook.subscribe.client_new
 def force_tile_mpv(window):
-    wm_class = window.get_vm_class()
+    wm_class = window.get_wm_class()
     if wm_class and ("mpv" in wm_class):
         window.floating = False
 
@@ -359,7 +359,7 @@ def init_widgets_list():
         widget.Image(
             filename="~/.config/qtile/icons/infinity-icon.png",
             scale="False",
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myTerm)},
+            mouse_callbacks={"Button1": lazy.spawn(myTerm)},
         ),
         widget.Prompt(font="Ubuntu Mono", fontsize=14, foreground=colors[1]),
         widget.GroupBox(
@@ -399,16 +399,16 @@ def init_widgets_list():
             func=get_radio_status,
             name="radio_status",
             mouse_callbacks={
-                "Button1": lambda: qtile.cmd_spawn(
+                "Button1": lazy.spawn(
                     "/home/vakosel/Scripts/qtradio/toggle_play_pause.sh"
                 ),  # Left click
-                "Button2": lambda: qtile.cmd_spawn(
+                "Button2": lazy.spawn(
                     "/home/vakosel/Scripts/qtradio/radio_play.sh"
                 ),  # Middle click
-                "Button3": lambda: qtile.cmd_spawn(
+                "Button3": lazy.spawn(
                     "/home/vakosel/Scripts/qtradio/radio_stop.sh"
                 ),  # Right click
-                "Button4": lambda: qtile.cmd_spawn(
+                "Button4": lazy.spawn(
                     "/Scripts/qtradio/radio_add_favorite.sh"
                 ),  # Scroll up: add to favorites
                 "Button5": show_full_radio_song_notification,  # Scroll down: show full song title
@@ -418,7 +418,7 @@ def init_widgets_list():
             foreground=colors[3],
         ),
         widget.CPU(
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myTerm + " -e htop")},
+            mouse_callbacks={"Button1": lazy.spawn(myTerm + " -e btop")},
             format=" Cpu: {load_percent}%",
             foreground=colors[4],
             padding=6,
@@ -426,18 +426,18 @@ def init_widgets_list():
         widget.Memory(
             foreground=colors[8],
             padding=6,
-            mouse_callbacks={"Button1": lambda: qtile.cmd_spawn(myTerm + " -e htop")},
+            mouse_callbacks={"Button1": lazy.spawn(myTerm + " -e btop")},
             format="{MemUsed: .0f}{mm}",
             fmt="🖥  Mem: {} used",
         ),
-        widget.Volume(
-            backend="pipewire",
+        widget.PulseVolume(
+            fmt="🕫  Vol: {}",
             foreground=colors[7],
             padding=6,
-            fmt="🕫  Vol: {}",
             mouse_callbacks={
-                "Button1": lambda: qtile.cmd_spawn("pavucontrol"),
-                "Button2": lazy.restart(),  # Add to force a restart on middle-click
+                "Button1": lazy.spawn("pavucontrol"),  # open mixer
+                "Button2": lazy.restart(),  # restart qtile
+                "Button3": lazy.widget["pulsevolume"].mute(),  # toggle mute
             },
         ),
         widget.KeyboardLayout(
@@ -451,7 +451,7 @@ def init_widgets_list():
             padding=6,
             format="⏱  %a, %b %d - %H:%M",
         ),
-        widget.Systray(padding=3),
+        # widget.Systray(padding=3),
         widget.Spacer(length=8),
     ]
     return widgets_list
