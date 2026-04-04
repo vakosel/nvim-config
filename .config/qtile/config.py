@@ -14,16 +14,28 @@ logout = "/home/vakosel/.config/rofi/powermenu/powermenu.sh"
 fileBrowser = "/usr/bin/thunar"
 
 
-@hook.subscribe.client_new
-def float_python(window):
+@hook.subscribe.client_managed
+def float_python_gui(window):
     try:
         pid = window.window.get_net_wm_pid()
+        if not pid:
+            return
+
         with open(f"/proc/{pid}/comm") as f:
             process = f.read().strip()
-        if process in ("python", "python3"):
-            window.floating = True
+
+        # Float Tkinter windows
+        if window.window.get_wm_class() and "tk" in window.window.get_wm_class():
+            window.enable_floating()
+            return
+
+        # Float all Python GUI windows
+        if "python" in process.lower():
+            window.enable_floating()
+
     except Exception:
         pass
+
 
 @hook.subscribe.client_new
 def force_tile_mpv(window):
@@ -572,6 +584,8 @@ floating_layout = layout.Floating(
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
+        Match(wm_class="tk"),  # "float tk"  # Float all tk-based programs
+        Match(wm_class="demo.py"),  # "float tk"  # Float all tk-based programs
         Match(wm_class="nvimterm"),  # nvim
         Match(wm_class="confirmreset"),  # gitk
         Match(wm_class="dialog"),  # dialog boxes
@@ -596,7 +610,7 @@ floating_layout = layout.Floating(
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
-titlebar=True, 
+titlebar = (True,)
 
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?
