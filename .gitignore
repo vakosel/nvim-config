@@ -35,3 +35,11 @@ Scripts/qtradio/radio-song*.txt
 
 # btop
 .config/btop/btop.conf
+
+# python
+__pycache__/
+*.pyc
+venv/
+.env
+.vscode/
+.idea/
