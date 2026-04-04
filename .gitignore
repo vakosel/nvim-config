@@ -1,6 +1,6 @@
 # various caches and auto-generated files
 
-scripts/qtradio/radio-status
+Scripts/qtradio/radio-status
 Scripts/qtradio/radio_stations.tmp
 .config/nvim/lazy-lock.json
 .config/mpv/icyhistory.log
