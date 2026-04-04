@@ -1,9 +1,10 @@
-__pycache__/
-*.py[cod]
-Scripts/qtradio/radio-status
+# various caches and auto-generated files
+
+scripts/qtradio/radio-status
 Scripts/qtradio/radio_stations.tmp
 .config/nvim/lazy-lock.json
 .config/mpv/icyhistory.log
+.config/yazi/plugins
 # Pywal temporary stuff
 .config/wpg/
 .config/rofi/colors/wpg.rasi
