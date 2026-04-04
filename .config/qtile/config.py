@@ -1,12 +1,11 @@
 import os
 import subprocess
 
+from colors import Wal_Colors as colors
 from libqtile import bar, hook, layout, qtile
 from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from qtile_extras import widget
-
-from colors import Wal_Colors as colors
 
 mod = "mod4"  # Sets mod key to SUPER/WINDOWS
 myTerm = "wezterm"  # My terminal of choice
@@ -14,6 +13,17 @@ myBrowser = "brave"  # My browser of choice
 logout = "/home/vakosel/.config/rofi/powermenu/powermenu.sh"
 fileBrowser = "/usr/bin/thunar"
 
+
+@hook.subscribe.client_new
+def float_python(window):
+    try:
+        pid = window.window.get_net_wm_pid()
+        with open(f"/proc/{pid}/comm") as f:
+            process = f.read().strip()
+        if process in ("python", "python3"):
+            window.floating = True
+    except Exception:
+        pass
 
 @hook.subscribe.client_new
 def force_tile_mpv(window):
@@ -580,16 +590,13 @@ floating_layout = layout.Floating(
         Match(title="Confirmation"),  # tastyworks exit box
         Match(title="Qalculate!"),  # qalculate-gtk
         Match(title="pinentry"),  # GPG key password entry
-        Match(title="tastycharts"),  # tastytrade pop-out charts
-        Match(title="tastytrade"),  # tastytrade pop-out side gutter
-        Match(title="tastytrade - Portfolio Report"),  # tastytrade pop-out allocation
-        Match(wm_class="tasty.javafx.launcher.LauncherFxApp"),  # tastytrade settings
     ],
     auto_flat=True,
 )
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
+titlebar=True, 
 
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?
