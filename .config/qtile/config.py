@@ -587,23 +587,6 @@ floating_layout = layout.Floating(
         Match(wm_class="tk"),  # "float tk"  # Float all tk-based programs
         Match(wm_class="demo.py"),  # "float tk"  # Float all tk-based programs
         Match(wm_class="nvimterm"),  # nvim
-        Match(wm_class="confirmreset"),  # gitk
-        Match(wm_class="dialog"),  # dialog boxes
-        Match(wm_class="download"),  # downloads
-        Match(wm_class="error"),  # error msgs
-        Match(wm_class="file_progress"),  # file progress boxes
-        Match(wm_class="kdenlive"),  # kdenlive
-        Match(wm_class="makebranch"),  # gitk
-        Match(wm_class="maketag"),  # gitk
-        Match(wm_class="notification"),  # notifications
-        Match(wm_class="pinentry-gtk-2"),  # GPG key password entry
-        Match(wm_class="ssh-askpass"),  # ssh-askpass
-        Match(wm_class="toolbar"),  # toolbars
-        Match(wm_class="Yad"),  # yad boxes
-        Match(title="branchdialog"),  # gitk
-        Match(title="Confirmation"),  # tastyworks exit box
-        Match(title="Qalculate!"),  # qalculate-gtk
-        Match(title="pinentry"),  # GPG key password entry
     ],
     auto_flat=True,
 )
