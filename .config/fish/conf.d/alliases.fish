@@ -4,7 +4,7 @@
 alias cls='clear'
 alias shutdown='systemctl poweroff'
 alias v='$EDITOR'
-alias vv 'nvim $(fzf)'
+alias vv='nvim $(fd | fzf)'
 alias vim='$EDITOR'
 alias v='nvim'
 alias so='source ~/.config/fish/config.fish'
