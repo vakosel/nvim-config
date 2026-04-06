@@ -43,20 +43,24 @@ fastfetch --config ~/.config/fastfetch/examples/13.jsonc
 # ALT-c = fzf cd
 fzf --fish | source
 
+# -----------------------------
+# Interactive file editor with preview
+# -----------------------------
 function fedit
-    # Use fd to list all files including hidden ones
-    # fzf for interactive selection with preview
-    # Enter → opens in nvim
-    # Ctrl-D → deletes file interactively
-    fd -H | fzf --preview "bat --style=numbers --color=always {}" \
+    # Only list regular files to avoid nvim complaining about directories
+    fd -H -t f | fzf --preview "bat --style=numbers --color=always {}" \
         --bind "enter:execute(nvim {})" \
         --bind "ctrl-d:execute(rm -i {})"
 end
 
-# Optional: fd directory jump function (if you want more control than Alt-C)
+# -----------------------------
+# Interactive directory jump
+# -----------------------------
 function fdcd
-    cd (fd -t d | fzf --preview "tree -C {} | head -20")
+    # Only list directories
+    cd (fd -H -t d | fzf --preview "tree -C {} | head -20")
 end
+
 # -----------------------------------------------------
 #  AUTOCOMPLETE AND HIGHLIGHT COLORS ###
 # -----------------------------------------------------
