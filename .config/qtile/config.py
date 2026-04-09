@@ -1,4 +1,5 @@
 import os
+import re
 import subprocess
 
 from colors import Wal_Colors as colors
@@ -584,8 +585,7 @@ floating_layout = layout.Floating(
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
         *layout.Floating.default_float_rules,
-        Match(wm_class="tk"),  # "float tk"  # Float all tk-based programs
-        Match(wm_class="demo.py"),  # "float tk"  # Float all tk-based programs
+        Match(wm_class=re.compile("tk", re.I)),  # float all tk windows
         Match(wm_class="nvimterm"),  # nvim
     ],
     auto_flat=True,
