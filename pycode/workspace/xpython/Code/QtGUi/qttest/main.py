@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
 
-from ui_main import Ui_MainWindow
+from ui_main import Ui_mainWinodw
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):

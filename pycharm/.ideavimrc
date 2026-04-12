@@ -1,0 +1,186 @@
+" .ideavimrc is a configuration file for IdeaVim plugin. It uses
+"   the same commands as the original .vimrc configuration.
+" You can find a list of commands here: https://jb.gg/h38q75
+" Find more examples here: https://jb.gg/share-ideavimrc
+
+
+" --- Enable IdeaVim plugins https://jb.gg/ideavim-plugins
+
+
+" =========================
+" LEADER
+" =========================
+let mapleader=" "
+
+
+" Escape
+imap jk <Esc>
+
+" =========================
+" CORE SETTINGS
+" =========================
+set number
+set relativenumber
+set scrolloff=8
+set incsearch
+set ignorecase
+set smartcase
+set clipboard+=unnamedplus
+set ideajoin
+
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+
+
+" Highlight copied text
+Plug 'machakann/vim-highlightedyank'
+" Commentary plugin
+Plug 'tpope/vim-commentary'
+" =========================
+" BUILT-IN FEATURES
+" =========================
+set surround
+set multiple-cursors
+set commentary
+set argtextobj
+set easymotion
+set textobj-entire
+set ReplaceWithRegister
+set exchange
+set which-key
+set quickscope
+
+" =========================
+" GENERAL
+" =========================
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <leader>h :nohlsearch<CR>
+
+" Better paste
+vnoremap p "_dP
+
+" Keep cursor centered
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Move lines
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" =========================
+" WINDOWS
+" =========================
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+
+nnoremap <leader>sv :action SplitVertically<CR>
+nnoremap <leader>sh :action SplitHorizontally<CR>
+nnoremap <leader>se :action Unsplit<CR>
+
+" Resize
+nnoremap <leader><Left>  :vertical resize -5<CR>
+nnoremap <leader><Right> :vertical resize +5<CR>
+nnoremap <leader><Up>    :resize +5<CR>
+nnoremap <leader><Down>  :resize -5<CR>
+
+" =========================
+" BUFFERS / TABS
+" =========================
+nnoremap <S-l> :action NextTab<CR>
+nnoremap <S-h> :action PreviousTab<CR>
+nnoremap <leader>bd :action CloseActiveTab<CR>
+
+" =========================
+" FILES (Telescope-like)
+" =========================
+nnoremap <leader>ff :action GotoFile<CR>
+nnoremap <leader>fg :action Find<CR>
+nnoremap <leader>fb :action RecentFiles<CR>
+nnoremap <leader>fs :action SearchEverywhere<CR>
+
+" =========================
+" EXPLORER
+" =========================
+nnoremap <leader>e :action ActivateProjectToolWindow<CR>
+
+" =========================
+" SEARCH / SYMBOLS
+" =========================
+nnoremap <leader>ss :action GotoSymbol<CR>
+nnoremap <leader>sd :action GotoDeclaration<CR>
+
+" =========================
+" LSP (IDE actions)
+" =========================
+nnoremap gd :action GotoDeclaration<CR>
+nnoremap gD :action GotoTypeDeclaration<CR>
+nnoremap gi :action GotoImplementation<CR>
+nnoremap gr :action FindUsages<CR>
+
+nnoremap K :action QuickJavaDoc<CR>
+
+nnoremap <leader>rn :action RenameElement<CR>
+nnoremap <leader>ca :action ShowIntentionActions<CR>
+nnoremap <leader>cf :action ReformatCode<CR>
+
+" =========================
+" TERMINAL
+" =========================
+nnoremap <leader>tt :action ActivateTerminalToolWindow<CR>
+
+" =========================
+" RUN / DEBUG
+" =========================
+nnoremap <leader>rr :action Run<CR>
+nnoremap <leader>rd :action Debug<CR>
+
+" =========================
+" GIT
+" =========================
+nnoremap <leader>gs :action ActivateVersionControlToolWindow<CR>
+nnoremap <leader>gc :action CheckinProject<CR>
+nnoremap <leader>gp :action Vcs.Push<CR>
+nnoremap <leader>gl :action Vcs.Log<CR>
+
+" =========================
+" COMMENTS
+" =========================
+nnoremap <leader>/ :action CommentByLineComment<CR>
+vnoremap <leader>/ :action CommentByLineComment<CR>
+
+" =========================
+" EASYMOTION
+" =========================
+nmap s <Plug>(easymotion-s2)
+nmap <leader><leader>w <Plug>(easymotion-w)
+
+" =========================
+" WHICH-KEY LABELS
+" =========================
+let g:WhichKeyDesc = {}
+
+let g:WhichKeyDesc[' f'] = 'Find'
+let g:WhichKeyDesc[' ff'] = 'Find File'
+let g:WhichKeyDesc[' fg'] = 'Find Text'
+let g:WhichKeyDesc[' fb'] = 'Buffers'
+
+let g:WhichKeyDesc[' s'] = 'Search'
+let g:WhichKeyDesc[' ss'] = 'Symbols'
+
+let g:WhichKeyDesc[' g'] = 'Git'
+let g:WhichKeyDesc[' gs'] = 'Git Status'
+
+let g:WhichKeyDesc[' r'] = 'Run'
+let g:WhichKeyDesc[' rr'] = 'Run'
+let g:WhichKeyDesc[' rd'] = 'Debug'
+
+let g:WhichKeyDesc[' c'] = 'Code'
+let g:WhichKeyDesc[' ca'] = 'Code Action'
+let g:WhichKeyDesc[' cf'] = 'Format'
