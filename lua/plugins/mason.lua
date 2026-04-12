@@ -4,8 +4,8 @@ return {
     opts = {
       ensure_installed = {
         "stylua",
-        "pyright",
         "lua-language-server",
+        "basedpyright",
         "ruff",
         "debugpy",
         "black",
