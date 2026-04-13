@@ -16,171 +16,260 @@ let mapleader=" "
 " Escape
 imap jk <Esc>
 
-" =========================
-" CORE SETTINGS
-" =========================
-set number
-set relativenumber
+" Init {{{
+set hlsearch
 set scrolloff=8
+set relativenumber
+set number
+set ignorecase smartcase
+set showmode
+set showcmd
+set visualbell
+set history=1000
 set incsearch
-set ignorecase
-set smartcase
-set clipboard+=unnamedplus
-set ideajoin
+set wrapscan                      " searches wrap around the end of the file
+set gdefault                      " substitute all occurrences in line per default
+set clipboard=unnamedplus,unnamed,ideaput " integrate with system clipboard
+"}}}
 
-set tabstop=4
-set shiftwidth=4
-set expandtab
-set smartindent
-
-
-" Highlight copied text
-Plug 'machakann/vim-highlightedyank'
-" Commentary plugin
+"Plugins  {{{
+Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-commentary'
-" =========================
-" BUILT-IN FEATURES
-" =========================
-set surround
-set multiple-cursors
-set commentary
-set argtextobj
-set easymotion
-set textobj-entire
-set ReplaceWithRegister
+Plug 'vim-surround'
+Plug 'easymotion/vim-easymotion'
+set ideajoin
 set exchange
-set which-key
-set quickscope
+set commentary
+" see https://github.com/magidc/ideavim-anyobject
+set anyobject
 
-" =========================
-" GENERAL
-" =========================
-nnoremap <leader>w :w<CR>
-nnoremap <leader>q :q<CR>
-nnoremap <leader>h :nohlsearch<CR>
+set nowhich-key
+set notimeout
 
-" Better paste
-vnoremap p "_dP
+"}}}
 
-" Keep cursor centered
-nnoremap n nzzzv
-nnoremap N Nzzzv
+# which key config
+let g:WhichKey_ShowVimActions = "true"
 
-" Move lines
-nnoremap <A-j> :m .+1<CR>==
-nnoremap <A-k> :m .-2<CR>==
-vnoremap <A-j> :m '>+1<CR>gv=gv
-vnoremap <A-k> :m '<-2<CR>gv=gv
+" NERDTree {{{
+" see https://github.com/JetBrains/ideavim/wiki/NERDTree-support
+Plug 'preservim/nerdtree'
+map <leader>e   :NERDTree<CR>
+"}}}
 
-" =========================
-" WINDOWS
-" =========================
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
+" Easy motions {{{
+" <ll> means that you have to prefix the command with <leader><leader>
+   " Default Mapping |  <Plug> command       |
+   " -----------------------------------------------------------------
+   "  <ll>f{char}    |  <Plug>(easymotion-f) |  mapped to fn
+   "  <ll>F{char}    |  <Plug>(easymotion-F) |  mapped to Fn
+   "  <ll>t{char}    |  <Plug>(easymotion-t) |  mapped to tn
+   "  <ll>T{char}    |  <Plug>(easymotion-T) |  mapped to Tn
+   "
+   "  <ll>w          |  <Plug>(easymotion-w) |
+   "  <ll>W          |  <Plug>(easymotion-W) |
+   "  <ll>b          |  <Plug>(easymotion-b) |
+   "  <ll>B          |  <Plug>(easymotion-B) |
+   "  <ll>e          |  <Plug>(easymotion-e) |
+   "  <ll>E          |  <Plug>(easymotion-E) |
+   "  <ll>ge         |  <Plug>(easymotion-ge |
+   "  <ll>gE         |  <Plug>(easymotion-gE |
+   "  <ll>j          |  <Plug>(easymotion-j) |
+   "  <ll>k          |  <Plug>(easymotion-k) |
+   "  <ll>n          |  <Plug>(easymotion-n) |
+   "  <ll>N          |  <Plug>(easymotion-N) |
+   "  <ll>s          |  <Plug>(easymotion-s) |  mapped to sn
+"}}}
 
-nnoremap <leader>sv :action SplitVertically<CR>
-nnoremap <leader>sh :action SplitHorizontally<CR>
-nnoremap <leader>se :action Unsplit<CR>
+" Use ctrl-c as an ide shortcut in normal and visual modes
+sethandler <C-C> n-v:ide i:vim
+sethandler <C-D> a:vim
+sethandler <C-U> a:vim
+sethandler <C-J> n-v:vim i:ide
+sethandler <C-E> n-v:vim i:ide
+sethandler <C-K> n-v:vim i:ide
+sethandler <C-W> a:vim
+sethandler <C-F> a:vim
+sethandler <C-B> a:vim
+sethandler <A-F> a:ide
+sethandler <C-R> a:vim
 
-" Resize
-nnoremap <leader><Left>  :vertical resize -5<CR>
-nnoremap <leader><Right> :vertical resize +5<CR>
-nnoremap <leader><Up>    :resize +5<CR>
-nnoremap <leader><Down>  :resize -5<CR>
 
-" =========================
-" BUFFERS / TABS
-" =========================
-nnoremap <S-l> :action NextTab<CR>
-nnoremap <S-h> :action PreviousTab<CR>
-nnoremap <leader>bd :action CloseActiveTab<CR>
+" Breakpoints && bookmarks {{{
+nnoremap <Leader>bt     :action ToggleLineBreakpoint<CR>
+nnoremap <Leader>bv     :action ViewBreakpoints<CR>
 
-" =========================
-" FILES (Telescope-like)
-" =========================
-nnoremap <leader>ff :action GotoFile<CR>
-nnoremap <leader>fg :action Find<CR>
-nnoremap <leader>fb :action RecentFiles<CR>
-nnoremap <leader>fs :action SearchEverywhere<CR>
+nnoremap <leader>BB     :action ToggleBookmark<cr>
+nnoremap <leader>BV 	:action ShowBookmarks<cr>
+nnoremap <leader>BT 	:action ToggleBookmarkWithMnemonic<cr>
+"}}}
 
-" =========================
-" EXPLORER
-" =========================
-nnoremap <leader>e :action ActivateProjectToolWindow<CR>
+" System clipboard copy/paste {{{
+noremap <leader>y "+y
+noremap <leader>Y "+Y
+noremap <leader>p "+p
+noremap <leader>P "+P
+"
+"}}}
 
-" =========================
-" SEARCH / SYMBOLS
-" =========================
-nnoremap <leader>ss :action GotoSymbol<CR>
-nnoremap <leader>sd :action GotoDeclaration<CR>
+" Windows {{{
+nnoremap <leader>l      <c-w>l
+nnoremap <leader>j      <c-w>j
+nnoremap <leader>h      <c-w>h
+nnoremap <leader>k      <c-w>k
+"}}}
 
-" =========================
-" LSP (IDE actions)
-" =========================
-nnoremap gd :action GotoDeclaration<CR>
-nnoremap gD :action GotoTypeDeclaration<CR>
-nnoremap gi :action GotoImplementation<CR>
-nnoremap gr :action FindUsages<CR>
+" Options {{{
+nnoremap cow 		:action EditorToggleUseSoftWraps<cr>
+nnoremap col 		:action EditorToggleShowWhitespaces<cr>
+"}}}
 
-nnoremap K :action QuickJavaDoc<CR>
+" Find && usage actions {{{
+nnoremap <space>u   	:action FindUsages<cr>
+nnoremap <space>U   	:action ShowUsages<cr>
+nnoremap <space><a-f>  	:action FindUsagesInFile<cr>
+nnoremap <space>h   	:action HighlightUsagesInFile<cr>
+"}}}
 
-nnoremap <leader>rn :action RenameElement<CR>
-nnoremap <leader>ca :action ShowIntentionActions<CR>
-nnoremap <leader>cf :action ReformatCode<CR>
+" View actions {{{
+nnoremap \f 	        :action FileStructurePopup<cr>
+nnoremap \a 		:action AddToFavoritesPopup<cr>
+nnoremap \hm 		:action MethodHierarchy<cr>
+nnoremap \ht 		:action TypeHierarchy<cr>
+nnoremap \hc 		:action CallHierarchy<cr>
+nnoremap \q 		:action QuickJavaDoc<cr>
+"}}}
 
-" =========================
-" TERMINAL
-" =========================
-nnoremap <leader>tt :action ActivateTerminalToolWindow<CR>
+" Code navigation {{{
+nnoremap ]td 	        :action GotoTypeDeclaration<cr>
+nnoremap ]sm 	        :action GotoSuperMethod<cr>
+nnoremap ]i 	        :action GotoImplementation<cr>
+nnoremap <space>a 	:action GotoAction<cr>
+nnoremap <space>c 	:action GotoClass<cr>
+nnoremap <space>e 	:action SearchEverywhere<cr>
+nnoremap <space>f 	:action GotoFile<cr>
+nnoremap <space>i 	:action GotoUrlAction<cr>
+nnoremap <space>l 	:action RecentLocations<cr>
+nnoremap <space>r 	:action RecentFiles<cr>
+nnoremap <space>s 	:action GotoSymbol<cr>
+nnoremap <space>t  	:action GotoTest<cr>
 
-" =========================
-" RUN / DEBUG
-" =========================
-nnoremap <leader>rr :action Run<CR>
-nnoremap <leader>rd :action Debug<CR>
+nnoremap <space>d       :action ActivateDebugToolWindow<cr>
+nnoremap <space>m       :action ActivateMavenToolWindow<cr>
+nnoremap <space>F       :action ActivateFindToolWindow<cr>
+nnoremap <space>g       :action ActivateGitLabCICDToolWindow<cr>
+nnoremap <space>D       :action ActivateDatabaseToolWindow<cr>
+nnoremap <space>S       :action ActivateServicesToolWindow<cr>
 
-" =========================
-" GIT
-" =========================
-nnoremap <leader>gs :action ActivateVersionControlToolWindow<CR>
-nnoremap <leader>gc :action CheckinProject<CR>
-nnoremap <leader>gp :action Vcs.Push<CR>
-nnoremap <leader>gl :action Vcs.Log<CR>
+nnoremap <leader>t      :action ActivateTerminalToolWindow<cr>
 
-" =========================
-" COMMENTS
-" =========================
-nnoremap <leader>/ :action CommentByLineComment<CR>
-vnoremap <leader>/ :action CommentByLineComment<CR>
+nnoremap [q :action PreviousOccurence<cr>
+nnoremap ]q :action NextOccurence<cr>
 
-" =========================
-" EASYMOTION
-" =========================
-nmap s <Plug>(easymotion-s2)
-nmap <leader><leader>w <Plug>(easymotion-w)
+" nnoremap <space>q  :action QuickJavaDoc<cr>
 
-" =========================
-" WHICH-KEY LABELS
-" =========================
-let g:WhichKeyDesc = {}
+"}}}
 
-let g:WhichKeyDesc[' f'] = 'Find'
-let g:WhichKeyDesc[' ff'] = 'Find File'
-let g:WhichKeyDesc[' fg'] = 'Find Text'
-let g:WhichKeyDesc[' fb'] = 'Buffers'
 
-let g:WhichKeyDesc[' s'] = 'Search'
-let g:WhichKeyDesc[' ss'] = 'Symbols'
+" Run/debug  invoking {{{
+" run
+nnoremap <leader>rr 		:action Run<cr>
+nnoremap <leader>rc 		:action RunClass<cr>
+nnoremap <leader>rC 		:action RunCoverage<cr>
+nnoremap <leader>ra 		:action RunAnything<cr>
 
-let g:WhichKeyDesc[' g'] = 'Git'
-let g:WhichKeyDesc[' gs'] = 'Git Status'
+# rerunt
+nnoremap <leader>Rr             :action Rerun<CR>
+nnoremap <leader>Rt             :action RerunTests<CR>
+nnoremap <leader>Rft            :action RerunFailedTests<CR>
 
-let g:WhichKeyDesc[' r'] = 'Run'
-let g:WhichKeyDesc[' rr'] = 'Run'
-let g:WhichKeyDesc[' rd'] = 'Debug'
+"}}}
 
-let g:WhichKeyDesc[' c'] = 'Code'
-let g:WhichKeyDesc[' ca'] = 'Code Action'
-let g:WhichKeyDesc[' cf'] = 'Format'
+" Compatibility {{{
+nnoremap g/ /
+nnoremap g<c-r> 	:action Replace<cr>
+nnoremap / 		:action Find<cr>
+" Built-in navigation to navigated items works better
+nnoremap <c-o> 		:action Back<cr>
+nnoremap <c-i> 		:action Forward<cr>
+" But preserve ideavim defaults
+nnoremap g<c-o> 	<c-o>
+nnoremap g<c-i> 	<c-i>
+nnoremap g<c-t>         <c-t>
+"}}}
+
+" VCS {{{
+nnoremap ]C              :action VcsShowNextChangeMarker<cr>
+nnoremap [C              :action VcsShowPrevChangeMarker<cr>
+nnoremap <leader>Hp      :action Vcs.ShowDiffChangedLines<cr>
+nnoremap <leader>Hu      :action Vcs.RollbackChangedLines<cr>
+" }}}
+
+" Miscellaneous {{{
+" Clear the search buffer when hitting return
+nnoremap z,al :actionlist 
+
+nmap <leader>x <Action>(HideAllWindows)
+" move lines
+nmap <C-k> <Action>(MoveLineUp)
+nmap <C-j> <Action>(MoveLineDown)
+
+nnoremap <Leader>ic :action InspectCode<CR>
+nnoremap <Leader>oi :action OptimizeImports<CR>
+
+nnoremap <space><cr> 	:nohlsearch<cr>
+nnoremap ZQ 		:action Exit<cr>
+nnoremap ZZ             :action CloseContent<cr>
+noremap <c-q>  		:action QuickJavaDoc<cr>
+noremap \sc      	:source ~/.ideavimrc<cr>
+noremap \ec      	:e ~/.ideavimrc<cr>
+nnoremap <space>oe 	:action FileEditor.OpenDataEditor<cr>
+nnoremap <leader>nl     :action SelectInProjectView<cr>
+nnoremap <c-z>          :action ToggleZenMode<cr>
+
+" Splitting Windows
+nmap <Leader>%      :vsplit<CR>
+nmap <Leader>"      :split<CR>
+" Quit normal mode
+nnoremap <Leader>q  :q<CR>
+nnoremap <Leader>Q  :qa!<CR>
+
+" Refactoring
+nmap \rt :action Refactorings.QuickListPopupAction<CR>
+nmap \ri :action Inline<CR>
+nmap \rn :action RenameElement<CR>
+nmap \rev :action IntroduceVariable<CR>
+nmap \ref :action IntroduceField<CR>
+nmap \reo :action IntroduceParameterObject<CR>
+nmap \rep :action IntroduceParameter<CR>
+vmap \rec :action IntroduceConstant<CR>
+nmap \rem :action ExtractMethod<CR>
+nmap \rm  :action Move<CR>
+nmap \rc  :action ReformatCode<CR>
+
+nmap \g  :action Generate<CR>
+nmap \o  :action OverrideMethods<CR>
+
+nnoremap [e :action GotoPreviousError<CR>
+nnoremap ]e :action GotoNextError<CR>
+map gh <Action>(ShowErrorDescription)
+
+nnoremap g; :action JumpToLastChange<CR>
+nnoremap g, :action JumpToNextChange<CR>
+
+nmap <C-p> :action ParameterInfo<CR>
+imap <C-p> <C-o>:action ParameterInfo<CR>
+" Open recent project dialog box
+nmap <Leader><Leader>m :action ManageRecentProjects<CR>
+
+" change font size
+nmap + :action EditorIncreaseFontSize<CR>
+nmap - :action EditorDecreaseFontSize<CR>
+nmap <leader>= :action EditorResetFontSize<CR>
+
+
+" tests
+nnoremap !t       :action ShowRecentTests<CR>
+
+"}}}
+
