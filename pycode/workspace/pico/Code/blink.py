@@ -1,6 +1,6 @@
-from machine import Pin
-
 import time
+
+from machine import Pin
 
 led = Pin(15, Pin.OUT)
 
