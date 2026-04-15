@@ -1,25 +1,15 @@
 return {
   "saghen/blink.cmp",
-  dependencies = {
-    {
-      "Exafunction/codeium.nvim",
-    },
-  },
   opts = {
     sources = {
-      default = { "codeium", "copilot", "lsp", "path", "snippets", "buffer" },
-      providers = {
-        codeium = {
-          name = "Codeium",
-          module = "codeium.blink",
-          score_offset = 200,
-          async = true,
-          enabled = true, -- start disabled since Copilot is active
-        },
-      },
+      default = { "copilot", "lsp", "path", "snippets", "buffer" },
     },
+
     signature = { enabled = true },
+
     keymap = {
+      preset = "super-tab",
+
       ["<Tab>"] = {
         "select_next",
         "snippet_forward",
@@ -38,7 +28,6 @@ return {
       ["<C-e>"] = { "hide" },
       ["<C-u>"] = { "scroll_documentation_up", "fallback" },
       ["<C-d>"] = { "scroll_documentation_down", "fallback" },
-      preset = "super-tab",
     },
   },
 }
