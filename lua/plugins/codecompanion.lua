@@ -16,13 +16,33 @@ return {
         inline = { adapter = active_adapter },
         agent = { adapter = active_adapter },
       },
+
       adapters = {
         -- Your Windows setup (4090 + 64GB RAM)
         ollama = function()
           return require("codecompanion.adapters").extend("ollama", {
             schema = {
-              model = { default = "qwen2.5-coder:32b" },
-              num_ctx = { default = 16384 }, -- High context for big projects
+              model = {
+                default = "qwen-beast", -- The 32B Architect
+                choices = {
+                  "qwen-beast", -- 32B
+                  "qwen14", -- 14B
+                  "qwen7", -- 7B
+                },
+              },
+              num_ctx = {
+                -- This function dynamically changes the context based on your model!
+                default = function(self)
+                  local model = self.model
+                  if model == "qwen7" then
+                    return 65536 -- 64k for the fast model (massive memory)
+                  elseif model == "qwen14" then
+                    return 32768 -- 32k for the middle model
+                  else
+                    return 16384 -- 16k for the 32B (safest for 24GB VRAM)
+                  end
+                end,
+              },
             },
           })
         end,
