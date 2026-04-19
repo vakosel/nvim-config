@@ -1,46 +1,8 @@
-# various caches and auto-generated files
-
-Scripts/qtradio/radio-status
-Scripts/qtradio/radio_stations.tmp
-.config/nvim/lazy-lock.json
-.config/mpv/icyhistory.log
-.config/yazi/plugins
-# Pywal temporary stuff
-.config/wpg/
-.config/rofi/colors/wpg.rasi
-.config/rofi/rofi_colors_wpg.rasi
-.config/conky/pywal_conky/latestcolors
-.config/conky/pywal_conky/qtconkyrc
-Scripts/Pywal/
-
-# XFCE auto-generated configs
-.config/xfce4/desktop/icons.screen0.yaml
-.config/xfce4/xfconf/xfce-perchannel-xml/thunar.xml
-.config/xfce4/xfconf/
-.config/xfce4/helpers.rc
-
-# Fish auto-generated vars
-.config/fish/fish_variables
-
-# LazyVim auto-state
-.config/nvim/lazyvim.json
-
-# Radio status cache
-Scripts/qtradio/radio-song*.txt
-
-# qtile
-.config/qtile/colors.py
-
-# dunstrc
-.config/dunst/dunstrc
-
-# btop
-.config/btop/btop.conf
-
-# python
-__pycache__/
-*.pyc
-venv/
-.env
-.vscode/
-.idea/
+tt.*
+.tests
+doc/tags
+debug
+.repro
+foo.*
+*.log
+data
