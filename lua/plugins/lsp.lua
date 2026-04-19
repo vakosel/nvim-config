@@ -18,6 +18,13 @@ return {
       -- PYTHON
       -----------------------------------------------------------------------
       opts.servers.basedpyright = {
+        -- This forces the server to start with ONLY utf-16 support
+        capabilities = {
+          offsetEncoding = { "utf-16" },
+          general = {
+            positionEncodings = { "utf-16" },
+          },
+        },
         settings = {
           basedpyright = {
             analysis = {
@@ -28,9 +35,22 @@ return {
             },
           },
         },
+        -- This is the "Safety Catch": it stops other plugins from
+        -- adding utf-8 back into the capabilities later.
+        on_new_config = function(new_config, _)
+          new_config.capabilities.offsetEncoding = { "utf-16" }
+          if new_config.capabilities.general then
+            new_config.capabilities.general.positionEncodings = { "utf-16" }
+          end
+        end,
       }
-
       opts.servers.ruff = {
+        capabilities = {
+          -- Ruff is modern and requires this specific nesting
+          general = {
+            positionEncodings = { "utf-16" },
+          },
+        },
         on_attach = function(client)
           client.server_capabilities.hoverProvider = false
         end,
